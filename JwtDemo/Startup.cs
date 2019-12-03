@@ -1,5 +1,6 @@
 using System.Text;
 using JwtDemo.Middleware;
+using JwtDemo.Models.Policy.MinimumAgePolicy;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@ namespace JwtDemo {
         public void ConfigureServices(IServiceCollection services) {
             var keyBytes = Encoding.UTF8.GetBytes(Configuration["JWT:Key"]);
             services.AddControllers();
+            //services.AddAuthorization(options => options.AddPolicy("MinimumAge", policy => policy.AddRequirements(new MinimumAge(21))));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
                         options.TokenValidationParameters = new TokenValidationParameters {
@@ -31,7 +33,11 @@ namespace JwtDemo {
                             ValidateIssuerSigningKey = true,
                             IssuerSigningKey = new SymmetricSecurityKey(keyBytes)
                         };
+                        
                     });
+
+            services.AddMinimumAgeRequirement(21);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

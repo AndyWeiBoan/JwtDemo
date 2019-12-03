@@ -9,8 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace JwtDemo.Controllers {
 
-
-
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase {
@@ -39,7 +37,7 @@ namespace JwtDemo.Controllers {
         }
 
         [HttpGet("~/Echo")]
-        [Authorize(Roles = "root")]
+        [Authorize(policy: "MinimumAge", Roles = "root")]
         public IActionResult Echo() {
             var user = new User();
             user.Email = User.FindFirstValue(ClaimTypes.Email);

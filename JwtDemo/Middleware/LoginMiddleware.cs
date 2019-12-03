@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -60,7 +61,6 @@ namespace JwtDemo.Middleware {
             var account = context.Request.Form[nameof(User.account)].ToString();
             var password = context.Request.Form[nameof(User.password)].ToString();
             var Email = context.Request.Form[nameof(User.Email)].ToString();
-
             int.TryParse(context.Request.Form[nameof(User.Age)], out var age);
 
             if (!this.IsUserValid(account, password)) {
